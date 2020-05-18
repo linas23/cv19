@@ -62,7 +62,6 @@ export default {
         };
         this.countryData.push(newObj);
       } catch (e) {
-        console.log(e);
         throw e;
       }
     });
