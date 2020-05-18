@@ -1,13 +1,15 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="6" md="4" v-for="(card,i) in cards" :key="i">
-      <v-card height="200" width="100%" class="text-center" :style="card.border">
-        <v-card-text class="title font-weight-bold">{{card.title}}</v-card-text>
-        <v-card-text class="headline">
-          <ICountUp :delay="500" :endVal="card.data" />
-        </v-card-text>
-        <v-card-subtitle>{{card.text}}</v-card-subtitle>
-      </v-card>
+      <transition appear name="slide-up">
+        <v-card height="200" width="100%" class="text-center" :style="card.border">
+          <v-card-text class="title font-weight-bold">{{card.title}}</v-card-text>
+          <v-card-text class="headline">
+            <ICountUp :delay="500" :endVal="card.data" />
+          </v-card-text>
+          <v-card-subtitle>{{card.text}}</v-card-subtitle>
+        </v-card>
+      </transition>
     </v-col>
   </v-row>
 </template>
@@ -52,13 +54,19 @@ export default {
         }
       ];
     }
-  },
-  created() {
-    console.log(this.info);
   }
 };
 </script>
 
-<style>
+<style scoped lang="scss">
+.slide-up {
+  &-enter-active {
+    transform: translateY(-50px);
+    transition: all 2s ease;
+  }
+  &-enter-to {
+    transform: translateY(0);
+  }
+}
 </style>
 

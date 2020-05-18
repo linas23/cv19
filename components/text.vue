@@ -14,6 +14,7 @@
           v-for="(warn,i) in dosAndDont"
           :key="i"
           :style="{textAlign:warn.align,backgroundColor:warn.bgColor}"
+          v-scroll-reveal
         >
           <v-card-text class="headline font-weight-bold" style="color:white">{{warn.title}}</v-card-text>
           <div v-for="point in warn.points" :key="point" style="color:white">
@@ -61,5 +62,3 @@ export default {
 };
 </script>
 
-<style>
-</style>

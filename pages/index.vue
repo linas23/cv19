@@ -5,36 +5,50 @@
     >Coronavirus disease (COVID-19) is an infectious disease caused by a newly discovered coronavirus.</p>
     <div v-if="info">
       <cards :info="info"></cards>
+      <selection @countryChanged="CountryChange"></selection>
+      <barChart :style="myStyles"></barChart>
     </div>
-    <chart></chart>
     <comptext></comptext>
+    <tables></tables>
   </div>
 </template>
 
 <script>
 import cards from "~/components/cards";
-import chart from "~/components/chart";
 import comptext from "~/components/text";
+import selection from "~/components/countrySelection";
+import barChart from "~/components/barChart";
+import tables from "~/components/table";
 import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-  data() {
-    return {
-      info: null
-    };
+  computed: {
+    ...mapGetters(["info"]),
+    myStyles() {
+      return {
+        fontSize: "2rem !important"
+      };
+    }
   },
   components: {
     cards,
-    chart,
-    comptext
+    tables,
+    comptext,
+    selection,
+    barChart
   },
   async created() {
-    let { data } = await axios.get("https://covid19.mathdro.id/api");
-    let { confirmed, deaths, recovered } = data;
-    this.info = { confirmed, deaths, recovered };
+    this.getGlobal();
   },
   methods: {
-    updateWithCountryData(country) {
-      console.log(country);
+    ...mapActions(["getGlobal", "handleCountryChange"]),
+    CountryChange(country) {
+      if (country == "Global") {
+        this.getGlobal();
+      } else {
+        this.handleCountryChange(country);
+      }
     }
   }
 };
